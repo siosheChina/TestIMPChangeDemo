@@ -45,13 +45,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //第一种实现 class_replaceMethod
-    [A oneSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
-    [B oneSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
+//    [A oneSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
+//    [B oneSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
     
     //第二种实现 method_exchangeImplementations
     
-//    [A twoSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
-//    [B twoSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
+    [A twoSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
+    [B twoSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint:)];
+    
+    //测试奔溃
+//    [B oneSwizzleInstanceMethod:@selector(print:) withMethod:@selector(hookPrint2:)];
+
     
     [self testPrintLog];
     return YES;
@@ -60,10 +64,12 @@
 - (void)testPrintLog{
     A* a = [A new];
     [a print:@"hello1"];
-    
+//    [a hookPrint:@"hello1.5"];
+
     B* b = [B new];
     [b print:@"hello2"];
-    
+    [b hookPrint:@"hello3"];
+
 }
 
 

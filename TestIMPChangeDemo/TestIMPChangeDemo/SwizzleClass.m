@@ -12,7 +12,7 @@
 @implementation NSObject(Swizzle)
 
 
-- (void)oneSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector
++ (void)oneSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector
 {
     Class cls = [self class];
     Method originalMethod = class_getInstanceMethod(cls, origSelector);
@@ -23,13 +23,14 @@
                                           method_getImplementation(swizzledMethod),
                                           method_getTypeEncoding(swizzledMethod));
     
-    class_replaceMethod(cls,
+     class_replaceMethod(cls,
                         newSelector,
                         previousIMP,
                         method_getTypeEncoding(originalMethod));
+
 }
 
-- (void)twoSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector
++ (void)twoSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector
 {
     Class cls = [self class];
     Method originalMethod = class_getInstanceMethod(cls, origSelector);

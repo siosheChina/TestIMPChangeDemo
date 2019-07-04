@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject(Swizzle)
 
-- (void)oneSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
-- (void)twoSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
++ (void)oneSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
++ (void)twoSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
 
 @end
 
