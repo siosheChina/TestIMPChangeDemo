@@ -18,15 +18,23 @@
     Method originalMethod = class_getInstanceMethod(cls, origSelector);
     Method swizzledMethod = class_getInstanceMethod(cls, newSelector);
     
-    IMP previousIMP = class_replaceMethod(cls,
-                                          origSelector,
-                                          method_getImplementation(swizzledMethod),
-                                          method_getTypeEncoding(swizzledMethod));
     
-     class_replaceMethod(cls,
-                        newSelector,
-                        previousIMP,
-                        method_getTypeEncoding(originalMethod));
+    BOOL success = class_addMethod(cls, origSelector, method_getImplementation(swizzledMethod),
+                                   method_getTypeEncoding(swizzledMethod));
+    if (success) {
+        class_replaceMethod(cls, newSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    }else{
+        
+        IMP previousIMP = class_replaceMethod(cls,
+                                              origSelector,
+                                              method_getImplementation(swizzledMethod),
+                                              method_getTypeEncoding(swizzledMethod));
+        
+        class_replaceMethod(cls,
+                            newSelector,
+                            previousIMP,
+                            method_getTypeEncoding(originalMethod));
+    }
 
 }
 
@@ -38,6 +46,25 @@
  
     method_exchangeImplementations(originalMethod, swizzledMethod);
 }
+
+
++ (void)fourSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector
+{
+    Class cls = [self class];
+    Method originalMethod = class_getInstanceMethod(cls, origSelector);
+    Method swizzledMethod = class_getInstanceMethod(cls, newSelector);
+    
+    //这里添加了class_addMethod
+    BOOL success = class_addMethod(cls, origSelector, method_getImplementation(swizzledMethod),
+                                   method_getTypeEncoding(swizzledMethod));
+    if (success) {
+        class_replaceMethod(cls, newSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    }else{
+        
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
+
 
 
 @end

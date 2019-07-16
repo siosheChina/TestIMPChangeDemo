@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)oneSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
 + (void)twoSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
++ (void)fourSwizzleInstanceMethod:(SEL)origSelector withMethod:(SEL)newSelector;
 
 @end
 
